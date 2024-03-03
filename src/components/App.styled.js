@@ -36,3 +36,12 @@ export const SubTitle = styled.h2`
   font-size: 30px;
   font-family: 'Comic Sans MS', cursive, sans-serif;
 `;
+
+export const ALterText = styled.p`
+  margin-right: 0;
+  margin-left: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+`;

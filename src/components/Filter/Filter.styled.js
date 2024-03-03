@@ -6,6 +6,7 @@ export const FilterLabel = styled.label`
   align-items: center;
   text-align: center;
   gap: 8px;
+  margin-bottom: 10px;
   width: 280px;
   font-size: 16px;
   font-weight: 700;

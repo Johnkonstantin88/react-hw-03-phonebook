@@ -4,18 +4,29 @@ import Notiflix from 'notiflix';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import { Container, SubTitle, Title } from './App.styled';
+import { ALterText, Container, SubTitle, Title } from './App.styled';
+import initialContacts from './data.json';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: initialContacts,
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('state');
+    const parsedContacts = JSON.parse(contacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state) {
+      console.log('Changes');
+      localStorage.setItem('state', JSON.stringify(this.state.contacts));
+    }
+  }
 
   contactFormSubmitHandler = data => {
     if (this.state.contacts.some(contact => contact.name === data.name)) {
@@ -59,8 +70,13 @@ export class App extends Component {
       <Container>
         <Title>Phonebook</Title>
         <ContactForm onSubmit={this.contactFormSubmitHandler} />
-        <SubTitle>Contacts</SubTitle>
-        <Filter value={filter} onChange={this.changeFilterHandler} />
+        {this.state.contacts.length > 0 && <SubTitle>Contacts</SubTitle>}
+        {this.state.contacts.length < 1 && (
+          <ALterText>There is no contacts in your contactlist</ALterText>
+        )}
+        {this.state.contacts.length > 1 && (
+          <Filter value={filter} onChange={this.changeFilterHandler} />
+        )}
         <ContactList
           contacts={filteredContacts}
           onDelete={this.deleteContactHandler}
